@@ -1,9 +1,9 @@
+import strformat
+import nimcrypto/sysrand
 import nimcrypto/rijndael
 import nimcrypto/bcmode
-import nimcrypto/sysrand
-from sequtils import concat, repeat
 import logging
-import strformat
+from sequtils import concat, repeat
 from ../util/config import encryptionKey
 
 

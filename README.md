@@ -11,9 +11,22 @@ Install Nim and Nimble.
 Install Nicodemus deps:
 - `nimcrypto`
 
-Compile the agent and run it.  
+Compile the agent and run it.  Use `-h` for help.
 
-Use `-h` for help.
+## Channel selection
+
+Nicodemus currently supports TCP, UDP and HTTP.
+
+### TCP
+`./main --contact=tcp --address=127.0.0.1 --port=2323`
+
+### UDP
+`./main --contact=udp --address=127.0.0.1 --port=4545`
+
+### HTTP
+
+`./main --contact=http --address=http://127.0.0.1 --port=3391`
+
 
 ## Cross-compilation
 

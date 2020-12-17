@@ -1,11 +1,9 @@
 import streams
 import httpclient
 
-var client = newHttpClient()
-var response = request(client, "http://example.com")
 
 proc saveFile(data: Stream, path: string) =
+    ## Saves an HTTP bodyStream to a file.
+    ##
     var stream_bytes = data.readAll()
     writeFile(path, stream_bytes)
-
-saveFile(response.bodyStream, "text.html")

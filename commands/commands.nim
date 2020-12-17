@@ -1,10 +1,10 @@
-import os
-import osproc
 import strutils
-import strformat
-import logging
 import strtabs
+import strformat
 import streams
+import osproc
+import os
+import logging
 
 
 type

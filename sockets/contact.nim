@@ -1,14 +1,21 @@
-import random
-import strformat
+import uri
 import strutils
+import strformat
+import random
 import os
+import net
+import logging
 from times import getTime, toUnix, nanosecond
 
 
-# Contact defines functions for communicating with the server.
+var logger = newConsoleLogger()
+
+# Contact describes networking for an upstream listener.
 type
     Contact* = object
         protocol*: string
+        address*: string
+        port*: int
 
 # Instruction defines TTP execution metadata.
 type
@@ -40,6 +47,22 @@ type
         body*: string
         filename*: string
         error*: int
+
+
+proc verifyAddress*(contact: Contact): bool =
+    ## Checks if the address is valid for the specified protocol.
+    ##
+    ##
+    if contact.protocol.startsWith("http"):
+        let host = parseUri(contact.address)
+        if host.scheme == "" or host.hostname == "":
+            logger.log(lvlFatal, fmt"{contact.address} is an invalid URL for HTTP/S beacons.")
+        else:
+            return true
+    else:
+        if isIpAddress(contact.address):
+            if 0 < contact.port and contact.port < 65535:
+                return true
 
 proc parseUriBase*(address: string): string =
     ## Returns the last element of a path.
