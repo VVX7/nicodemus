@@ -5,6 +5,7 @@ import random
 import os
 import net
 import logging
+import json
 from times import getTime, toUnix, nanosecond
 
 
@@ -48,6 +49,45 @@ type
         filename*: string
         error*: int
 
+proc unmarshalBeacon*(body: string): Beacon =
+    let data = parseJson(body)
+    var beacon = Beacon()
+    if data.contains("Name"):
+        beacon.Name = data["Name"].getStr()
+    if data.contains("Location"):
+        beacon.Location = data["Location"].getStr()
+    if data.contains("Platform"):
+        beacon.Platform = data["Platform"].getStr()
+    if data.contains("Executors"):
+        for executor in data["Executors"]:
+            beacon.Executors.add(executor.getStr())
+    if data.contains("Range"):
+        beacon.Range = data["Range"].getStr()
+    if data.contains("Pwd"):
+        beacon.Pwd = data["Pwd"].getStr()
+    if data.contains("links"):
+        for link in data["links"]:
+            var newLink = Instruction()
+            if link.contains("ID"):
+                newLink.ID = link["ID"].getStr()
+            if link.contains("ttp"):
+                newLink.ttp = link["ttp"].getStr()
+            if link.contains("tactic"):
+                newLink.tactic = link["tactic"].getStr()
+            if link.contains("Executor"):
+                newLink.Executor = link["Executor"].getStr()
+            if link.contains("Payload"):
+                newLink.Payload = link["Payload"].getStr()
+            if link.contains("Request"):
+                newLink.Request = link["Request"].getStr()
+            if link.contains("Response"):
+                newLink.Response = link["Response"].getStr()
+            if link.contains("Status"):
+                newLink.Status = link["Status"].getInt()
+            if link.contains("Pid"):
+                newLink.Pid = link["Pid"].getInt()
+            beacon.Links.add(newLink)
+    result = beacon
 
 proc verifyAddress*(contact: Contact): bool =
     ## Checks if the address is valid for the specified protocol.

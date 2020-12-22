@@ -1,10 +1,10 @@
 import uri
 import strutils
 import strformat
-import marshal
+import json
 import logging
 import httpclient
-from contact import Contact, Beacon, HTTPPayload, parseUriBase, jitterSleep, verifyAddress
+from contact import Contact, Beacon, HTTPPayload, parseUriBase, jitterSleep, verifyAddress, unmarshalBeacon
 from ../util/encoder import hexToSeqByte, seqByteToHex
 from ../util/cryptic import toString, toByteSeq, encrypt, decrypt
 from ../util/config import encryptionKey
@@ -36,7 +36,7 @@ proc syncPost(address: string, beacon: Beacon): string =
     ## Synchronous POST request.
     ##
     var client = newHttpClient()
-    let data: string = seqByteToHex(encrypt($$beacon, encryptionKey))
+    let data: string = seqByteToHex(encrypt($(%* beacon), encryptionKey))
     client.headers = newHttpHeaders({ "User-Agent": "ayylmao/1.1", "Accept-Encoding": "gzip" })
     result = client.postContent(url = address, body = data)
 
@@ -59,7 +59,7 @@ proc httpCommunicate*(contact: Contact, sleep: int, beacon: Beacon) =
             jitterSleep(sleep, "HTTP")
             continue
 
-        var unmarshalledBeacon: Beacon = to[Beacon](body)
+        var unmarshalledBeacon: Beacon = unmarshalBeacon(body)
         if len(unmarshalledBeacon.Links) == 0:
             # Sleep until the next beacon.
             jitterSleep(sleep, "HTTP")

@@ -9,7 +9,7 @@ It's a port of [Pneuma](https://github.com/preludeorg/pneuma) and intended as a 
 Install Nim and Nimble.
 
 Install Nicodemus deps:
-- `nimcrypto`
+- `nimble install nimcrypto`
 
 Compile the agent and run it.  Use `-h` for help.
 

