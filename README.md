@@ -38,7 +38,7 @@ Nicodemus is a port of [Pneuma](https://github.com/preludeorg/pneuma) so it's me
 
 ### C2 Instruction
 
-```json
+```
 {
   ID: "067e99fb-f88f-49a8-aadc-b5cadf3438d4",
   ttp: "0b726950-11fc-4b15-a7d3-0d6e9cfdbeab",
@@ -51,7 +51,7 @@ Nicodemus is a port of [Pneuma](https://github.com/preludeorg/pneuma) so it's me
 
 ### Agent Beacon
 
-```json
+```
 {
   "Name": "test",
   "Location": "/tmp/me.go"
@@ -65,7 +65,7 @@ Nicodemus is a port of [Pneuma](https://github.com/preludeorg/pneuma) so it's me
 
 ### Links
 
-```json
+```
 {
   "ID": "123",
   "Executor": "sh",
