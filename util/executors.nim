@@ -32,6 +32,15 @@ let freebsd = Executor(
     executor: @["python", "sh"]
 )
 
+proc returnPlatform*(): string =
+    ## Returns the host operating system.  On MacOS systems, Nim returns the value `macosx`
+    ## but Operator expects `darwin`.
+    let host = hostOS
+    if host == "macosx":
+        result = "darwin"
+    else:
+        result = host
+
 proc findExecutable(file: string): bool =
     ## Test if a path points to an executable file.
     ##

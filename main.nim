@@ -6,7 +6,7 @@ import parseopt
 import os
 import net
 import logging
-from util/executors import determineExecutors
+from util/executors import determineExecutors, returnPlatform
 from util/cli import writeHelp, writeVersion
 from times import getTime, toUnix, nanosecond
 from sockets/rawudp import udpCommunicate
@@ -39,7 +39,7 @@ proc buildBeacon(name: string, group: string): contact.Beacon =
     var links: seq[Instruction]
     result = Beacon(Name: name,
                     Location: executable,
-                    Platform: hostOS,
+                    Platform: returnPlatform(),
                     Executors: determineExecutors(),
                     Pwd: pwd,
                     Range: group,
