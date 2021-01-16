@@ -20,8 +20,8 @@ let linux = Executor(
     executor: @["python", "pwsh", "sh"]
 )
 
-let macosx = Executor(
-    os: "macosx",
+let darwin = Executor(
+    os: "darwin",
     file: @["python3", "pwsh", "sh", "osascript"],
     executor: @["python", "pwsh", "sh", "osa"]
 )
@@ -36,7 +36,7 @@ proc returnPlatform*(): string =
     ## Returns the host operating system.  On MacOS systems, Nim returns the value `macosx`
     ## but Operator expects `darwin`.
     let host = hostOS
-    if host == "macosx":
+    if host == "macosx" os host == "macos":
         result = "darwin"
     else:
         result = host
@@ -90,11 +90,11 @@ proc determineExecutors*(): seq[string] =
     ## Searches for available execution engines.
     ## 
     ## The "keyword" executor is the fallback executor which executes commands via the Nim os library.
-    var supportedExecutors: seq[Executor] = @[windows, linux, macos, macosx, freebsd]
+    var supportedExecutors: seq[Executor] = @[windows, linux, darwin, freebsd]
     result.add("keyword")
 
     for eachExecutor in supportedExecutors:
-        if eachExecutor.os == hostOS:
+        if eachExecutor.os == returnPlatform():
             for f in eachExecutor.file:
                 if checkIfExecutorAvailable(f):
                     result.add(f)
