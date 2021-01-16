@@ -13,17 +13,21 @@ Run the compiled agent to connect on the default TCP address.  For help use the 
 ### Linux 
 
 1. Install [Nim](https://nim-lang.org/install_unix.html).
-2. Install [MinGW-w64 toolchain](https://nim-lang.org/install_unix.html).
+2. Install dependencies with Nimble.
+   - `cd nicodemus/ && nimble install`
+3. Install [MinGW-w64 toolchain](https://nim-lang.org/install_unix.html).
    - `Ubuntu: apt install mingw-w64`
-3. Compile agent for build targets.
+4. Compile agent for build targets.
    - `./build.sh`
 
 ### MacOS
 
 1. Install [Nim](https://nim-lang.org/install_unix.html).
-2. Install [MinGW-w64 toolchain](https://nim-lang.org/install_unix.html).
+2. Install dependencies with Nimble.
+   - `cd nicodemus/ && nimble install`
+3. Install [MinGW-w64 toolchain](https://nim-lang.org/install_unix.html).
    - `OSX: brew install mingw-w64`
-3. Compile agent for build targets.
+4. Compile agent for build targets.
    - `./build.sh`
 
 ## Cross-compiling
