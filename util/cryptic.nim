@@ -1,3 +1,7 @@
+#[
+    Author: Roger Johnston, Twitter: @VV_X_7
+    License: GNU AGPLv3
+]#
 import strformat
 import nimcrypto/sysrand
 import nimcrypto/rijndael

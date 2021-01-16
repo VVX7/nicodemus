@@ -1,3 +1,8 @@
+#[
+    Author: Roger Johnston, Twitter: @VV_X_7
+    License: GNU AGPLv3
+]#
+
 proc writeHelp*() =
     ## Writes the cli help page.
     ##
