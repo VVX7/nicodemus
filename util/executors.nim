@@ -20,12 +20,6 @@ let linux = Executor(
     executor: @["python", "pwsh", "sh"]
 )
 
-let macos = Executor(
-    os: "macos",
-    file: @["python3", "pwsh", "sh", "osascript"],
-    executor: @["python", "pwsh", "sh", "osa"]
-)
-
 let macosx = Executor(
     os: "macosx",
     file: @["python3", "pwsh", "sh", "osascript"],
