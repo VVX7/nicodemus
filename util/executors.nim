@@ -40,7 +40,7 @@ proc returnPlatform*(): string =
     ## Returns the host operating system.  On MacOS systems, Nim returns the value `macosx`
     ## but Operator expects `darwin`.
     let host = hostOS
-    if host == "macosx" os host == "macos":
+    if host == "macosx" or host == "macos":
         result = "darwin"
     else:
         result = host
