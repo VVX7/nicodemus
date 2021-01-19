@@ -36,6 +36,13 @@ Nim cross-compiling is documented [here](https://nim-lang.org/docs/nimc.html#cro
 
 Check out this [Docker image for easy cross-compiling](https://github.com/chrisheller/docker-nim-cross).  You'll need to install any nimble packages required by this project first.
 
+You can use the `docker-build.sh` script to automatically cross-compile amd64 versions for Mac, Linux, and Windows through the docker using this:
+
+```shell
+docker run --rm -v `pwd`:/usr/local/src \
+  chrishellerappsian/docker-nim-cross:latest ./build-docker.sh
+```
+
 ## Use without Operator
 
 Nicodemus is a port of [Pneuma](https://github.com/preludeorg/pneuma) so it's meant to be used with Prelude Operator.  If you want to use a different C2 you'll need to structure messages so that Nicodemus understands.  See Pneuma [beacon documentation](https://github.com/preludeorg/pneuma#use-without-operator) for more detail.
