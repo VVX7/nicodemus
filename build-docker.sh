@@ -25,10 +25,10 @@ for plugin in $(find module/plugin/ -name "*.nim"); do
 done
 
 # Windows amd64
-nim c --cpu:amd64 -d:release -d:ssl --opt:size -d:mingw -o:nicodemus-windows.exe --outdir:./payloads main.nim
+nim c --cpu:amd64 --os:windows -d:release -d:ssl --opt:size -d:mingw -o:nicodemus-windows.exe --outdir:./payloads main.nim
 # Compile Windows plugins.
 for plugin in $(find module/plugin/ -name "*.nim"); do
     plugin_name=$(basename -s .nim $plugin)
     plugin_dir=$(dirname $plugin| cut -d '/' -f2-)
-    nim c --cpu:amd64 -d:release -d:ssl --opt:size -d:mingw -o:$plugin_name-windows.exe --outdir:./payloads/$plugin_dir $plugin;
+    nim c --cpu:amd64 --os:windows -d:release -d:ssl --opt:size -d:mingw -o:$plugin_name-windows.exe --outdir:./payloads/$plugin_dir $plugin;
 done
