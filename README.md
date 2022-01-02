@@ -1,8 +1,8 @@
 # Nicodemus
 
-Nicodemus is a cross-platform Nim implant for the Prelude Operator adversary emulation platform.  
+Nicodemus is a cross-platform Nim implant for the Prelude Operator adversary emulation platform.
 
-It's a port of [Pneuma](https://github.com/preludeorg/pneuma) and intended as a reference implementation for those thinking about writing their own Operator agent in Nim. Where possible, Nicodemus' code closely resembles that of Pneuma.
+It's a port of [Pneuma](https://github.com/preludeorg/pneuma) and intended as a reference implementation for those thinking about writing their own Operator agent in [Nim](https://nim-lang.org/). Where possible, Nicodemus' code closely resembles that of Pneuma.
 
 ## Getting started
 
@@ -10,7 +10,7 @@ Use `build.sh` to compile Nicodemus for the host OS and Windows build target.
 
 Run the compiled agent to connect on the default TCP address.  For help use the `-h` command switch.
 
-### Linux 
+### Linux
 
 1. Install [Nim](https://nim-lang.org/install_unix.html).
 2. Install dependencies with Nimble.
@@ -90,7 +90,7 @@ Nicodemus is a port of [Pneuma](https://github.com/preludeorg/pneuma) so it's me
 
 ## Channel selection
 
-Nicodemus currently supports TCP, UDP and HTTP. 
+Nicodemus currently supports TCP, UDP and HTTP.
 
 ### TCP
 `./main --contact=tcp --address=127.0.0.1 --port=2323`
@@ -99,10 +99,7 @@ Nicodemus currently supports TCP, UDP and HTTP.
 `./main --contact=udp --address=127.0.0.1 --port=4545`
 
 ### HTTP
-
 `./main --contact=http --address=http://127.0.0.1 --port=3391`
 
 
 ## Coming soon
-
-
